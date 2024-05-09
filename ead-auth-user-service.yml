@@ -35,6 +35,14 @@ logging:
     org.springframework.web: DEBUG
     org.hibernate: INFO
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+          - health
+
 resilience4j:
   circuitbreaker:
     instances:
