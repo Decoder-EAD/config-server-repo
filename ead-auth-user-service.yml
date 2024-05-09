@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: ead-auth-user-service
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authuser
+    username: postgres
+    password: mysecretpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      jdbc:
+        lob.non-contextual-creation: true
+    properties:
+      hibernate:
+        show_sql: true
+  rabbitmq:
+    addresses: amqps://vsofjkut:WWJY_EeQVli0IQadxcv_YwBOqQcSsxv9@stingray.rmq.cloudamqp.com/vsofjkut
+
+server:
+  compression:
+    enabled: true
+  port: 8180
+  servlet:
+    context-path: /ead-auth-user
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    com.ead: TRACE
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate: INFO
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      circuitbreaker-instance:
+        sliding-window-size: 30
+        permitted-number-of-calls-in-half-open-state: 2
+        sliding-window-type: TIME_BASED
+        minimum-number-of-calls: 2
+        wait-duration-in-open-state: 30s
+        failure-rate-threshold: 80
+  retry:
+    instances:
+      retry-instance:
+        max-retry-attempts: 3
+        wait-duration: 5s
+
+ead:
+  api:
+    url:
+      course: "http://ead-course-service/courses"
+  broker:
+    exchange:
+      user-event: ead.userevent
