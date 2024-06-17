@@ -1,0 +1,38 @@
+logging:
+  level:
+    com.ead: TRACE
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate: INFO
+
+server:
+  port: 8182
+
+spring:
+  output:
+    ansi:
+      enabled: always
+
+ead:
+  database:
+    url: jdbc:postgresql://localhost:5432/authuser
+    username: postgres
+    password: mysecretpassword
+  broker:
+    connection:
+      address: amqps://vsofjkut:WWJY_EeQVli0IQadxcv_YwBOqQcSsxv9@stingray.rmq.cloudamqp.com/vsofjkut
+    exchange:
+      notification-command-exchange: ead.notification.command
+      queue:
+        notification-command-queue:
+          name: ead.notification.command.ms.notification
+      key:
+        notification-command-key: ms.notification
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+          - health
